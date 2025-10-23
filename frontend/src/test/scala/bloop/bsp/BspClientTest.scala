@@ -257,6 +257,11 @@ trait BspClientTest {
     }
   }
 
+  def replaceNewLines(str: String): String =
+    str
+      .replace("\n", " ")
+      .replace(END_OF_LINE_MATCHER, " ")
+
   def addServicesTest(
       configDir: AbsolutePath,
       compileIteration: () => Int,
@@ -337,11 +342,8 @@ trait BspClientTest {
                 }
 
                 val canonical = pathString.replace(File.separatorChar, '/')
-                val report = diagnostics.map(
-                  _.copy(source = Some("_"), code = Some("_")).toString
-                    .replace("\n", " ")
-                    .replace(END_OF_LINE_MATCHER, " ")
-                )
+                val report = diagnostics
+                  .map(d => replaceNewLines(d.copy(source = Some("_"), code = Some("_")).toString))
                 builder
                   .++=(s"#${compileIteration()}: $canonical\n")
                   .++=(s"  -> $report\n")

@@ -1441,8 +1441,12 @@ class BspCompileSpec(
         assertExitStatus(compiledState, ExitStatus.CompilationError)
         val sep = File.separator
         assertNoDiff(
-          // Remove ANSI escape codes
-          compiledState.lastDiagnostics(`A`).replaceAll("\u001B\\[[;\\d]*m", ""),
+          compiledState
+            .lastDiagnostics(`A`)
+            .replaceAll("\u001B\\[[;\\d]*m", "") // Remove ANSI escape codes
+            .split("\n")
+            .map(replaceNewLines)
+            .mkString("\n"),
           s"""
              |#1: task start 1
              |  -> Msg: Compiling a (1 Scala source)
