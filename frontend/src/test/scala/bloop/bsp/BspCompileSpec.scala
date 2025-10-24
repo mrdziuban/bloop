@@ -1440,6 +1440,18 @@ class BspCompileSpec(
         val compiledState = state.compile(`A`, arguments = Some(List("--show-rendered-message")))
         assertExitStatus(compiledState, ExitStatus.CompilationError)
         val sep = File.separator
+        val diagnostics = compiledState
+          .lastDiagnostics(`A`)
+          .replaceAll("\u001B\\[[;\\d]*m", "") // Remove ANSI escape codes
+          .split("\n")
+          .map(replaceNewLines)
+          .mkString("\n")
+        val escapedDiagnostics = org.apache.commons.text.StringEscapeUtils.escapeJava(diagnostics)
+        println(
+          "**********************************************************\n" +
+            escapedDiagnostics +
+            "\n**********************************************************"
+        )
         assertNoDiff(
           compiledState
             .lastDiagnostics(`A`)

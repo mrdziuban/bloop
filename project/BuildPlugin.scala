@@ -78,7 +78,8 @@ object BuildKeys {
     Keys.testFrameworks += new sbt.TestFramework("utest.runner.Framework"),
     Keys.libraryDependencies ++= List(
       Dependencies.utest % Test,
-      Dependencies.pprint % Test
+      Dependencies.pprint % Test,
+      "org.apache.commons" % "commons-text" % "1.14.0" % Test
     )
   )
 
