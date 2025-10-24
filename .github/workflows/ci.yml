@@ -6,6 +6,7 @@ on:
       - v2.*
     branches:
       - main
+      - rendered-problem-test
   pull_request:
 
 jobs:
