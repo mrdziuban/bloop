@@ -1453,12 +1453,8 @@ class BspCompileSpec(
             "\n**********************************************************"
         )
         assertNoDiff(
-          compiledState
-            .lastDiagnostics(`A`)
-            .replaceAll("\u001B\\[[;\\d]*m", "") // Remove ANSI escape codes
-            .split("\n")
-            .map(replaceNewLines)
-            .mkString("\n"),
+          // Remove ANSI escape codes
+          compiledState.lastDiagnostics(`A`).replaceAll("\u001B\\[[;\\d]*m", ""),
           s"""
              |#1: task start 1
              |  -> Msg: Compiling a (1 Scala source)
