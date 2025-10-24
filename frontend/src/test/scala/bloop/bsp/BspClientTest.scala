@@ -257,7 +257,7 @@ trait BspClientTest {
     }
   }
 
-  def replaceNewLines(str: String): String = str.replace(END_OF_LINE_MATCHER, " ")
+  def replaceNewLines(str: String): String = str.replaceAll(END_OF_LINE_MATCHER, " ")
 
   def addServicesTest(
       configDir: AbsolutePath,
